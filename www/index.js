@@ -11,11 +11,6 @@ const END_COLOR = "#00FFFF"
 const width = 80;
 const height = 40;
 
-
-const startPoint = Point.new(5,5);
-const endPoint = Point.new(77, 37);
-const board = Board.new(width, height, startPoint, endPoint);
-
 const canvas = document.getElementById("the_canvas");
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
@@ -46,7 +41,7 @@ const cellFillStyle = (cell) => {
   return fillStyle;
 }
 
-const drawCells = () => {
+const drawCells = (board) => {
   const cellsPtr = board.all_cells();
   const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
 
@@ -70,4 +65,15 @@ const drawCells = () => {
   ctx.stroke();
 };
 
-drawCells();
+const generate = () => {
+  const startPoint = Point.new(5, 5);
+  const endPoint = Point.new(77, 37);
+  const board = Board.new(width, height, startPoint, endPoint);
+  drawCells(board);
+}
+
+generate();
+
+const generatorButton = document.getElementById("generator");
+
+generatorButton.addEventListener("click", event => generate());
