@@ -67,3 +67,13 @@ impl Board {
         self.cells.as_ptr()
     }
 }
+
+impl Board {
+    pub fn is_off(&self, point: &Point) -> bool{
+        point.x < 0 || point.x >= self.width as i32 || point.y < 0 || point.y >= self.height as i32
+    } 
+    pub fn cell(&self, point: &Point) ->Cell {
+        let idx = point.x + self.width as i32 * point.y;
+        self.cells[idx as usize]
+    }
+}

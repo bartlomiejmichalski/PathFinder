@@ -7,7 +7,19 @@
   <body>
     <canvas id="the_canvas"></canvas>
     <div>
-      <button id="generator">Generate</button>
+      <label for="name">Start X:</label>
+      <input type="number" id="start_x" name="start_x" required minlength="1" maxlength="8" size="10" min="1">
+      <label for="name">Start Y:</label>
+      <input type="number" id="start_y" name="start_y" required minlength="1" maxlength="8" size="10" min="1">
+    </div>
+    <div>
+      <label for="name">End X :</label>
+      <input type="number" id="end_x" name="end_x" required minlength="1" maxlength="8" size="10" min="1">
+      <label for="name">End Y :</label>
+      <input type="number" id="end_y" name="end_y" required minlength="1" maxlength="8" size="10" min="1">
+    </div>
+    <div>
+      <button id="calculate">Calculate</button>
     </div>
     <script src="./bootstrap.js"></script>
   </body>
