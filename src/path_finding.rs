@@ -19,11 +19,11 @@ fn reverse(ordering: Ordering) -> std::cmp::Ordering{
 }
 #[wasm_bindgen]
 pub fn search(start_point: &Point, end_point: &Point, board: &Board) -> Option<SearchState>{
-    log!("Hello");
+    log!("Starting");
     let mut fringe:Vec<SearchState> = Vec::new();
     let mut closed:Vec<Point> = Vec::new();
     fringe.push(create_initial_state(&start_point, &end_point));
-    loop {
+    let result = loop {
         if fringe.is_empty() {
             break None;
         }
@@ -38,7 +38,9 @@ pub fn search(start_point: &Point, end_point: &Point, board: &Board) -> Option<S
         }
         closed.push(state.current_pos().clone());
         fringe.append(&mut get_successors(&state, &end_point, &board));
-    }
+    };
+    log!("Ending");
+    result
 }
 
 fn get_successors(state : &SearchState, end_point: &Point, board: &Board) -> Vec<SearchState>{

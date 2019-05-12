@@ -1,6 +1,3 @@
-
-
-
 mod point;
 mod search_state;
 mod cell;
@@ -17,14 +14,11 @@ use path_finding::search;
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+
 #[macro_export]
 macro_rules! log {
     ( $( $t:tt )* ) => {
         web_sys::console::log_1(&format!( $( $t )* ).into());
     }
-}
-#[wasm_bindgen]
-pub fn using_web_sys() {
-    log!("Hello using web-sys");
-    log!("Logging arbitrary values looks like {}", 4);
 }

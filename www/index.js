@@ -1,7 +1,6 @@
 import { Board, Cell, Point, search, using_web_sys } from "path_finder";
 import { memory } from "path_finder/path_finder_bg";
 
-
 const CELL_SIZE = 15;
 const WALL_COLOR = "#000000";
 const FREE_COLOR = "#FFFFFF";
@@ -10,54 +9,56 @@ const TREE_COLOR = "#00FF00";
 const START_COLOR = "#FF0000";
 const PATH_COLOR = "#FF00FF";
 const END_COLOR = "#00FFFF";
-const width = 80;
-const height = 40;
+const WIDTH = 80;
+const HEIGHT = 40;
 
-const start_x = 5;
-const start_y = 5;
-const end_x = 77;
-const end_y = 37;
-
-using_web_sys()
-
-
-document.getElementById("start_x").value = start_x;
-document.getElementById("start_x").max = width
-document.getElementById("start_y").value = start_y;
-document.getElementById("start_y").max = height
-document.getElementById("end_x").value = end_x;
-document.getElementById("end_x").max = width
-document.getElementById("end_y").value = end_y;
-document.getElementById("end_y").max = height
+const START_X = 5;
+const START_Y = 5;
+const END_X = 77;
+const END_Y = 37;
 
 const calculateButton = document.getElementById("calculate");
+document.getElementById("start_x").value = START_X;
+document.getElementById("start_x").max = WIDTH;
+document.getElementById("start_y").value = START_Y;
+document.getElementById("start_y").max = HEIGHT;
+document.getElementById("end_x").value = END_X;
+document.getElementById("end_x").max = WIDTH;
+document.getElementById("end_y").value = END_Y;
+document.getElementById("end_y").max = HEIGHT;
+
+const canvas = document.getElementById("the_canvas");
+canvas.height = (CELL_SIZE + 1) * HEIGHT + 1;
+canvas.width = (CELL_SIZE + 1) * WIDTH + 1;
+
+const ctx = canvas.getContext('2d');
+
+const startPoint = Point.new(5, 5);
+const endPoint = Point.new(77, 37);
+const board = Board.new(WIDTH, HEIGHT, startPoint, endPoint);
+
 
 calculateButton.addEventListener("click", event => {
-  drawCells();
+  drawCells(board);
+  const {startPoint, endPoint} = createPoints()
+  const result =  search(startPoint, endPoint, board)
+  const cells = new Uint32Array (memory.buffer,  result.all_path(), result.count() * 2);
+  drawPath(cells, result.count() * 2)
+});
+
+const createPoints = () =>{
   const start_x = parseInt(document.getElementById("start_x").value)
   const start_y = parseInt(document.getElementById("start_y").value)
   const end_x = parseInt(document.getElementById("end_x").value)
   const end_y = parseInt(document.getElementById("end_y").value)
   const startPoint = Point.new(start_x, start_y);
   const endPoint = Point.new(end_x, end_y);
-  const result =  search(startPoint, endPoint, board)
-  const cells = new Uint32Array (memory.buffer,  result.all_path(), result.count() * 2);
-  drawPath(cells, result.count() * 2)
-});
-
-const startPoint = Point.new(5, 5);
-const endPoint = Point.new(77, 37);
-const board = Board.new(width, height, startPoint, endPoint);
-console.log(startPoint);
-
-const canvas = document.getElementById("the_canvas");
-canvas.height = (CELL_SIZE + 1) * height + 1;
-canvas.width = (CELL_SIZE + 1) * width + 1;
-
-const ctx = canvas.getContext('2d');
-
+  return {
+    startPoint, endPoint
+  }
+}
 const getIndex = (row, column) => {
-  return row * width + column;
+  return row * WIDTH + column;
 };
 
 const cellFillStyle = (cell) => {
@@ -82,12 +83,12 @@ const cellFillStyle = (cell) => {
 
 const drawCells = (board) => {
   const cellsPtr = board.all_cells();
-  const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
+  const cells = new Uint8Array(memory.buffer, cellsPtr, WIDTH * HEIGHT);
 
   ctx.beginPath();
 
-  for (let row = 0; row < height; row++) {
-    for (let col = 0; col < width; col++) {
+  for (let row = 0; row < HEIGHT; row++) {
+    for (let col = 0; col < WIDTH; col++) {
       const idx = getIndex(row, col);
     
       ctx.fillStyle = cellFillStyle(cells[idx])
@@ -121,10 +122,4 @@ const drawPath = (cells, count) => {
   ctx.stroke();
 }
 
-drawCells();
-
-generate();
-
-const generatorButton = document.getElementById("generator");
-
-generatorButton.addEventListener("click", event => generate());
+drawCells(board);
