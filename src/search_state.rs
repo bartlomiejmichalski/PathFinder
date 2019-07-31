@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use super::Point;
+use crate::Point;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -12,7 +12,11 @@ pub struct SearchState{
     g: f64,
     f: f64
 }
-
+impl SearchState {
+    pub fn get_path(&self) -> Vec<Point>{
+        self.path.clone()
+    }
+}
 #[wasm_bindgen]
 impl SearchState {
     pub fn all_path(&self) -> *const Point {

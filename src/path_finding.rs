@@ -45,7 +45,7 @@ pub fn search(start_point: &Point, end_point: &Point, board: &Board) -> Option<S
 
 fn get_successors(state : &SearchState, end_point: &Point, board: &Board) -> Vec<SearchState>{
     let mut successors : Vec<SearchState> = Vec::new();
-    let directions:Vec<(i32, i32)> = vec![(-1,0), (-1, 1), (0, 1), (1, 1), (1,0), (1, -1), (0, -1), (-1, -1)];
+    let directions:Vec<(i32, i32)> = vec![(-1,0), (0, 1), (1,0), (0, -1)];
     for direction in &directions {
         let new_pos = state.current_pos().move_to(&direction);
         if board.is_off(&new_pos) {

@@ -5,11 +5,11 @@ mod board;
 mod path_finding;
 
 use wasm_bindgen::prelude::*;
-use point::Point;
-use search_state::SearchState;
-use cell::Cell;
-use board::Board;
-use path_finding::search;
+pub use point::Point;
+pub use search_state::SearchState;
+pub use cell::Cell;
+pub use board::Board;
+pub use path_finding::search;
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]

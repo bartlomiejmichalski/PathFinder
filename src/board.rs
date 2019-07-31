@@ -1,6 +1,6 @@
 use wasm_bindgen::prelude::*;
-use super::Cell;
-use super::Point;
+use crate::Cell;
+use crate::Point;
 
 #[wasm_bindgen]
 pub struct Board {
@@ -75,5 +75,15 @@ impl Board {
     pub fn cell(&self, point: &Point) ->Cell {
         let idx = point.x + self.width as i32 * point.y;
         self.cells[idx as usize]
+    }
+}
+
+impl Board {
+    pub fn new_test(width: u32, height: u32, cells: Vec<Cell>) -> Board {
+        Board {
+            width,
+            height,
+            cells,
+        }
     }
 }
